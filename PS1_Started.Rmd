@@ -458,18 +458,31 @@ out$Y<-out$V1*B1+out$V2*B2+out$error
 **Write a chunk in which you regress $Y$ on $V_1$ and $V_2$. Are your estimates of $\beta_1$ and $\beta_2$ biased?**
 
 **Answer:**
+```{r}
+reg <- lm(out$Y~out$V1+out$V2)
+summary(reg, digits=3)
+```
 
 
 ## Question: 
 **Write a chunk in which you regress $Y$ on $V_1$ only. Is your estimate of $\beta_1$ biased?**
 
 **Answer:**
+```{r}
+reg2 <- lm(out$Y~out$V1)
+summary(reg2, digits=3)
+```
 
 
 ## Question: 
 **Generate a new variable $Y_{adj}$ such that $Y_{adj}=Y-\beta_2*V_2$. Then regress $Y_{adj}$ on $V_1$. Is your estimate of $\beta_1$ biased? Can you explain why/why not?**
 
 **Answer:**
+```{r}
+out$Yadj <- out$Y-B2*out$V2
+reg3 <- lm(out$Yadj~out$V1)
+summary(reg3)
+```
 
 
 ## Question: 
@@ -486,6 +499,10 @@ out$Y<-out$V1*B1+out$V2*B2+out$error
 
 ```
 **Answer:**
+```{r}
+plot <- ggplot(out, aes(V1, y=value))+geom_point(aes(y=Y, col="Y", alpha=0.05),color="black")+geom_point(aes(y=Yadj,col="Yadj", alpha=0.05), color="red")+geom_smooth(method=`lm`,aes(y=Y,col="Y", alpha=0.1),color="black")+geom_smooth(method=`lm`,aes(y=Yadj,col="Y",alpha=0.1),color="red")+theme_bw()+labs(x="V1 value", y="Y value/Y_adj value", title="Relationship between Y and V1, Y_adj and V1")
+plot
+```
 
 
 
@@ -493,11 +510,24 @@ out$Y<-out$V1*B1+out$V2*B2+out$error
 **Load the `cps_clean.csv' dataset (available on Canvas). Regress income on education and interpret the coefficient.  **
 
 **Answer:**
+```{r}
+install.packages("readr")
+library(readr)
+cps_clean_1_<-read_csv("cps_clean (1).csv")
+cps_clean_1_ <- cps_clean_1_
+reg_cps <- lm(formula=inctot~edu, data=cps_clean_1_)
+summary(reg_cps)
+```
 
 
 ## Question: 
 **Add additional control variables to the regression you estimated above. How does this change your interpretation of the coefficient on education?**
 **Answer:**
+```{r}
+reg_cps2 <- lm(formula=inctot~edu+female,data=cps_clean_1_)
+summary(reg_cps2)
+```
+
 
 # Submission instructions:
 
