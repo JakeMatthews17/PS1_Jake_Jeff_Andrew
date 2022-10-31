@@ -2,20 +2,20 @@
 title: 'Problem Set 1:Getting Started Key'
 author: "Claire Duquennois"
 output:
-  pdf_document:
-    number_sections: true
   html_document:
+    number_sections: true
+  pdf_document:
     number_sections: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-**Group Member 1: Your name here**
+**Group Member 1: Jake**
 
-**Group Member 2: Your name here**
+**Group Member 2: Jeff**
 
-**Group Member 3: Your name here**
+**Group Member 3: Andrew**
 
 
 
@@ -463,6 +463,7 @@ reg <- lm(out$Y~out$V1+out$V2)
 summary(reg, digits=3)
 ```
 
+We would say our estimates of beta_1 and beta_2 are unbiased as they are both very close to our initial assumptions of 3 and 6 respectively. This regression also has an R^2 value of .9865, meaning it explains about 98% of the variance of the population.
 
 ## Question: 
 **Write a chunk in which you regress $Y$ on $V_1$ only. Is your estimate of $\beta_1$ biased?**
@@ -473,6 +474,7 @@ reg2 <- lm(out$Y~out$V1)
 summary(reg2, digits=3)
 ```
 
+In this regression, where we omit one of the variables, the coefficient for beta_1 jumps to 7. This is not close to our assumption of beta_1 so we think it may be biased. The R^2 for this model is .8167, which means it explains less of the population variance and is likley biased in comparison to the first model.
 
 ## Question: 
 **Generate a new variable $Y_{adj}$ such that $Y_{adj}=Y-\beta_2*V_2$. Then regress $Y_{adj}$ on $V_1$. Is your estimate of $\beta_1$ biased? Can you explain why/why not?**
@@ -483,7 +485,7 @@ out$Yadj <- out$Y-B2*out$V2
 reg3 <- lm(out$Yadj~out$V1)
 summary(reg3)
 ```
-
+We don't think beta_1 is biased in this instance because of how close it is to our asumption of 3 and the increased value of R^2 for this model (.8966). This lack of bias is because Y adjusted is a function of beta_2, therefore not omitting it in the same way as the previous model.
 
 ## Question: 
 **The code below generates a scatter plot and regression line for the relationship between $V_1$ and $Y$ as well as $V_1$ and $Y_{adj}$. Submit an improved visualization of this data. Hint: you will need to delete the # to get the code to run **
@@ -504,7 +506,7 @@ plot <- ggplot(out, aes(V1, y=value))+geom_point(aes(y=Y, col="Y", alpha=0.05),c
 plot
 ```
 
-
+We changed the color of one the variables to distinguish them from each other, added labels for the x and y axis, added a new title,changed the opacity of the data making it easier to see all the points, and changed the color of the regression line.
 
 ## Question: 
 **Load the `cps_clean.csv' dataset (available on Canvas). Regress income on education and interpret the coefficient.  **
@@ -513,7 +515,7 @@ plot
 ```{r}
 install.packages("readr")
 library(readr)
-cps_clean_1_<-read_csv("cps_clean (1).csv")
+cps_clean_1_<-read_csv("cps_clean.csv")
 cps_clean_1_ <- cps_clean_1_
 reg_cps <- lm(formula=inctot~edu, data=cps_clean_1_)
 summary(reg_cps)
@@ -528,7 +530,7 @@ reg_cps2 <- lm(formula=inctot~edu+female,data=cps_clean_1_)
 summary(reg_cps2)
 ```
 
-
+After we added a dummy variable for gender our beta_1 estimate for education increased slightly while constraining the standard error. Overall we found this change to not be very significant, and our model may benefit from additional interaction variables.
 # Submission instructions:
 
 1) Make sure the final version of your assignment is uploaded on GitHub in both html and Rmarkdown format. 
